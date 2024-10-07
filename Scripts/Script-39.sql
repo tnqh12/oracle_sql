@@ -1,0 +1,8 @@
+CREATE DIRECTORY dump_dir AS 'C:/oracledump';
+
+GRANT READ, WRITE ON DIRECTORY dump_dir TO ICS;
+
+DROP DIRECTORY dump_dir;
+CREATE DIRECTORY dump_dir AS 'C:/oracledump';
+GRANT READ, WRITE ON DIRECTORY dump_dir TO ICS;
+

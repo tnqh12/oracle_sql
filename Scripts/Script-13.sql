@@ -1,0 +1,341 @@
+BEGIN
+		DBMS_OUTPUT.PUT_LINE('HELLO,PL/SQL~');
+END;
+
+
+DECLARE
+V_EMPNO NUMBER(4) := 7788;
+V_ENAME VARCHAR2(10);
+BEGIN
+	V_ENAME := 'SCOTT';
+	--ASDFDAS
+	DBMS_OUTPUT.PUT_LINE('V_ENAME : ' || V_ENAME);
+END;
+
+
+DECLARE
+	V_EMPNO NUMBER(4) := 7788;
+	V_ENAME VARCHAR2(10);
+BEGIN
+	V_ENAME := 'SCOTT';
+DBMS_OUTPUT.PUT_LINE('V_EMPNO : ' || V_EMPNO);
+DBMS_OUTPUT.PUT_LINE('V_ENAME : ' || V_ENAME);
+END;
+DECLARE
+	V_TAX  CONSTANT NUMBER(1) := 3;
+BEGIN
+DBMS_OUTPUT.PUT_LINE('V_TAX : ' || V_TAX);
+END;
+
+
+
+DECLARE
+	V_TAX  CONSTANT NUMBER(1) NOT NULL := 3;
+BEGIN
+DBMS_OUTPUT.PUT_LINE('V_TAX : ' || V_TAX);
+END;
+
+
+DECLARE
+	V_DEPT_ROW DEPT%ROWTYPE;
+BEGIN
+	SELECT DEPTNO, DNAME, LOC INTO V_DEPT_ROW
+		FROM DEPT
+			WHERE DEPTNO =40;
+		 DBMS_OUTPUT.PUT_LINE('DEPTNO : ' || V_DEPT_ROW.DEPTNO);
+		 DBMS_OUTPUT.PUT_LINE('DNAME : ' || V_DEPT_ROW.DNAME);
+		 DBMS_OUTPUT.PUT_LINE('LOC : ' || V_DEPT_ROW.LOC);
+END;
+
+
+DECLARE
+V_NUMBER NUMBER := 13;
+BEGIN
+	IF MOD(V_NUMBER, 2) = 1 THEN
+	DBMS_OUTPUT.PUT_LINE('V_NUMBER는 홀수입니다');
+	ELSE
+	DBMS_OUTPUT.PUT_LINE('V_NUMBER는 짝수입니다');
+	
+END IF;
+END;
+
+DECLARE
+V_SCORE NUMBER := 87;
+BEGIN
+	IF V_SCORE >= 90 THEN
+	DBMS_OUTPUT.PUT_LINE('A');
+	ELSIF V_SCORE >= 80 THEN
+	DBMS_OUTPUT.PUT_LINE('B');
+	ELSIF V_SCORE >= 70 THEN
+	DBMS_OUTPUT.PUT_LINE('C');
+	ELSIF V_SCORE >= 60 THEN
+	DBMS_OUTPUT.PUT_LINE('D');
+	ELSE 
+	DBMS_OUTPUT.PUT_LINE('F');
+END IF;
+END;
+
+DECLARE
+V_SCORE NUMBER := 77;
+BEGIN
+ CASE TRUNC(V_SCORE/10)
+	WHEN 10 THEN DBMS_OUTPUT.PUT_LINE('A');
+	WHEN 9 THEN	DBMS_OUTPUT.PUT_LINE('A');
+	WHEN 8 THEN	DBMS_OUTPUT.PUT_LINE('B');
+	WHEN 7 THEN	DBMS_OUTPUT.PUT_LINE('C');
+	WHEN 6 THEN	DBMS_OUTPUT.PUT_LINE('D');
+	ELSE	DBMS_OUTPUT.PUT_LINE('F');
+END CASE;
+END;
+
+
+DECLARE
+	V_NUM NUMBER := 0;
+BEGIN
+	LOOP
+		DBMS_OUTPUT.PUT_LINE('현재 V_NUM :'|| V_NUM);
+	V_NUM := V_NUM +1;
+	EXIT WHEN V_NUM >4;
+	END LOOP;
+END;
+DECLARE
+	V_NUM NUMBER := 0;
+BEGIN
+	WHILE V_NUM < 4	LOOP
+		DBMS_OUTPUT.PUT_LINE('현재 V_NUM :'|| V_NUM);
+	V_NUM := V_NUM +1;
+	END LOOP;
+END;
+
+BEGIN
+	FOR i IN 0..4 LOOP
+		DBMS_OUTPUT.PUT_LINE('현재 i의 값 :' || i);
+	END LOOP;
+END;
+
+BEGIN
+	FOR I IN REVERSE 0..4 LOOP
+		DBMS_OUTPUT.PUT_LINE('현재 I의 값 :' || I);
+	END LOOP;
+END;
+
+
+BEGIN
+	FOR I IN REVERSE 0..4 LOOP
+		CONTINUE WHEN MOD(I,2) = 1;
+		DBMS_OUTPUT.PUT_LINE('현재 I의 값 = ' || I);
+	END LOOP;
+END; 
+
+
+
+-- PL/SQL 실습 1
+
+-- 1. 구구단 출력
+
+-- 2. 별찍기
+/*
+   1)          2)              3)
+*oooo    oooo*    oooo*oooo           
+**ooo    ooo**    ooo***ooo
+***oo    oo***    oo*****oo
+****o    o****    o*******o
+*****    *****    *********
+
+*/
+
+-- 3. SSCORE테이블(학번, 학생명, 국어, 영어, 수학)을 생성하고
+--    3명의 데이터를 입력 후 각 학생의 정보를 아래와 같이 출력
+--    (반드시 %ROWTYPE을 사용할 것)
+--------------------------------------------------
+--  학번     이름    국어   영어   수학     총점      평균
+--     1   홍길동      90      90      90      270      90   
+--     2   강감찬      80      80      80      240      80
+--     3   이순신      70      70      70      210      70
+--------------------------------------------------
+
+-- 구구단 출력
+DECLARE
+	V_N NUMBER := 8;
+	V_NUMBER NUMBER := V_N;
+	V_NUM NUMBER := V_N;
+BEGIN
+	DBMS_OUTPUT.PUT_LINE(V_N||'단');
+	FOR I IN 2..10 LOOP
+		DBMS_OUTPUT.PUT_LINE(I-1||'*'||V_N||' = '|| V_NUM);
+	V_NUM := V_NUMBER * I;
+	END LOOP;
+END;
+
+-- 2단 부터 9단 까지
+BEGIN
+	FOR I IN 2..9 LOOP	
+		FOR J IN 1..9 LOOP
+			DBMS_OUTPUT.PUT_LINE(I||'*'||J|| '='||(I*J));
+		END LOOP;
+	END LOOP;
+END;
+
+
+-- 별찍기
+BEGIN
+	FOR I IN 1..5 LOOP	
+		FOR J IN 1..I LOOP
+			DBMS_OUTPUT.PUT('*');
+		END LOOP;
+		FOR J IN (I+1)..5 LOOP
+			DBMS_OUTPUT.PUT(' ');
+		END LOOP;
+		DBMS_OUTPUT.PUT_LINE('');
+	END LOOP;
+END;
+
+BEGIN
+	FOR I IN 1..5 LOOP	
+		FOR J IN (I+1)..5 LOOP
+			DBMS_OUTPUT.PUT(' ');
+		END LOOP;
+		FOR J IN 1..I LOOP
+			DBMS_OUTPUT.PUT('*');
+		END LOOP;
+		DBMS_OUTPUT.PUT_LINE('');
+	END LOOP;
+END;
+
+
+-- 실패작
+DECLARE
+V_KEY NUMBER := 5;
+V_N NUMBER := 0;
+BEGIN
+	FOR I IN 1..V_KEY LOOP
+	IF(I <= V_KEY /2+I)
+		FOR J IN (I+1)..V_KEY LOOP
+			DBMS_OUTPUT.PUT(' ');
+		V_N = I-1;
+	END LOOP;
+	END IF;
+		FOR J IN 1..V_KEY-2 * V_N LOOP
+			DBMS_OUTPUT.PUT('*');
+		END LOOP;
+		DBMS_OUTPUT.PUT_LINE('');
+	END LOOP;
+END;
+--별찍기 3번
+BEGIN
+   FOR I IN 1..5 LOOP
+      FOR J IN (I+1)..5 LOOP
+         DBMS_OUTPUT.PUT('o');
+   END LOOP;
+      FOR J IN 1..(I*2-1) LOOP
+         DBMS_OUTPUT.PUT('*');
+      END LOOP;
+      FOR J IN (I+1)..5 LOOP
+         DBMS_OUTPUT.PUT('o');
+      END LOOP;
+      DBMS_OUTPUT.PUT_LINE('');
+   END LOOP;
+END;
+
+
+
+
+
+DROP TABLE SSCORE;
+DROP SEQUENCE SEQ_SSCORE;
+
+CREATE TABLE SSCORE(
+S_N NUMBER PRIMARY KEY,
+S_NA VARCHAR2(20) NOT NULL,
+S_K NUMBER DEFAULT 0,
+S_E NUMBER DEFAULT 0,
+S_M NUMBER DEFAULT 0
+);
+
+
+CREATE SEQUENCE SEQ_SSCORE;
+
+INSERT INTO SSCORE VALUES(SEQ_SSCORE.NEXTVAL,'홍길동',90,90,90);
+INSERT INTO SSCORE VALUES(SEQ_SSCORE.NEXTVAL,'강감찬',80,80,80);
+INSERT INTO SSCORE VALUES(SEQ_SSCORE.NEXTVAL,'이순신',70,70,70);
+SELECT * FROM SSCORE;
+
+
+DECLARE
+	RS SSCORE%ROWTYPE;
+	RT NUMBER;
+	CURSOR CS
+	IS
+	SELECT * FROM SSCORE;
+BEGIN
+	DBMS_OUTPUT.PUT_LINE('학번 이름 국어 영어 수학 총점 평균');
+    DBMS_OUTPUT.PUT_LINE('-----------------------');
+	OPEN CS;
+	LOOP
+	FETCH CS INTO RS;
+	RT := RS.S_K+RS.S_E+RS.S_M;
+	EXIT WHEN CS%NOTFOUND;
+	DBMS_OUTPUT.PUT_LINE(
+	RS.S_N||' '||RS.S_NA
+	||' '||RS.S_K||' '||
+	RS.S_E||' '||
+	RS.S_M||' '||RT||' '|| RT/3);
+	END LOOP;
+	CLOSE CS;
+END;
+
+
+
+
+
+
+
+-- 4. 3번 실습 연관 배열과 레코드 타입
+
+DECLARE
+  	-- 레코드 = 한행
+	-- 여러개의 데이터 타입을 갖는 변수들의 집합
+	-- 일반적으로는 어떤 테이블의 한행의 전체 컬럼들의  타입을 하나로 묶을떄 사용된다.(레코드 1개=1행)
+	TYPE RC IS RECORD(
+	S_N SSCORE.S_N%TYPE,
+	S_NA SSCORE.S_NA%TYPE,
+	S_K SSCORE.S_K%TYPE,
+	S_E SSCORE.S_E%TYPE,
+	S_M SSCORE.S_M%TYPE
+	);
+--연관배열은 동일한 타입을 하나로
+--연관 배열은 인덱스를 통해서 각강의 요소에 접근하다
+	TYPE AA IS TABLE OF RC INDEX BY PLS_INTEGER;
+	CURSOR CS IS SELECT * FROM SSCORE;
+	V_RC RC; V_AA AA; IDX PLS_INTEGER := 0; RT NUMBER :=0;
+BEGIN
+	DBMS_OUTPUT.PUT_LINE('학번 이름 국어 영어 수학 총점 평균');
+    DBMS_OUTPUT.PUT_LINE('-----------------------');
+   OPEN CS;
+  LOOP
+	 FETCH CS INTO V_RC;
+ 	 EXIT WHEN CS%NOTFOUND;
+ 	 IDX := IDX +1;
+ 	-- 연관 배열내의 레코드에 데이터저장          
+ 	 V_AA(IDX).S_N := V_RC.S_N;
+ 	 V_AA(IDX).S_NA := V_RC.S_NA;
+ 	 V_AA(IDX).S_K := V_RC.S_K;
+ 	 V_AA(IDX).S_E := V_RC.S_E;
+ 	 V_AA(IDX).S_M := V_RC.S_M;
+ 	RT := V_RC.S_k + V_RC.S_E + V_RC.S_M;
+ 	DBMS_OUTPUT.PUT_LINE(
+ 	V_AA(IDX).S_N||' '||V_AA(IDX).S_NA||' '||V_AA(IDX).S_K||' '||V_AA(IDX).S_E||' '||V_AA(IDX).S_M||
+ 	' '||RT||' '||RT/3
+ 	);
+ 	END LOOP;
+ --커서 닫기
+	CLOSE CS;
+END;
+
+
+
+
+
+
+
+

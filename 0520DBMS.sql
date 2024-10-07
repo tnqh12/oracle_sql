@@ -1,0 +1,187 @@
+SELECT *FROM EMP_DETAILS_VIEW;
+
+
+SELECT TEXT FROM USER_VIEWS;
+
+
+SELECT *FROM ALL_TABLES;
+
+
+SELECT * FROM DEPARTMENTS;
+
+CREATE  OR REPLACE VIEW DEPT_EMP_VIEW
+AS
+SELECT E.EMPLOYEE_ID, D.DEPARTMENT_NAME
+FROM DEPARTMENTS D, EMPLOYEES E
+WHERE D.DEPARTMENT_ID = E.DEPARTMENT_ID;
+
+SELECT * FROM DEPT_EMP_VIEW;
+
+DROP VIEW DEPT_EMP_VIEW;
+
+
+
+-- 5/20 SQL 실습
+-- HR 계정
+-- 1. 부서 테이블에서 부서ID 와 부서명을 조회
+
+SELECT 
+DEPARTMENT_ID AS "부서ID",
+DEPARTMENT_NAME AS "부서명"
+FROM DEPARTMENTS;
+
+-- 2. 직원 테이블에서 직원ID와 직원의관리자ID를 조회, 직원의ID 내림차 순으로 정렬
+
+SELECT
+EMPLOYEE_ID AS "직원ID",
+MANAGER_ID AS "관리자ID"
+FROM EMPLOYEES
+ORDER BY EMPLOYEE_ID DESC;
+
+-- 3. 부서  테이블에서 부서ID가 100미만인 행을 조회
+SELECT 
+DEPARTMENT_ID AS "부서ID"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_ID >100;
+
+-- 4. 부서 테이블에서 부서명에 CO가 들어간 행을 조회
+SELECT 
+DEPARTMENT_NAME AS "부서명"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_NAME LIKE '%co%';
+
+
+-- 5. 부서명이 S로 시작하는 행을 조회
+SELECT 
+DEPARTMENT_NAME AS "부서명"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_NAME LIKE 'S%';
+
+
+-- 6. 부서 ID가 10,50,100,150인 행을 조회 
+
+SELECT 
+DEPARTMENT_ID AS "부서ID"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_ID IN(10,50,100,150);
+
+-- 7. 부서 ID가 60~180인 행을 조회
+SELECT 
+DEPARTMENT_ID AS "부서ID"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_ID BETWEEN 60 AND 180;
+
+-- 8. 부서 테이블에서 부서명이 2글자인 행을 조회
+SELECT 
+DEPARTMENT_NAME AS "부서명"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_NAME LIKE '__';
+
+-- 9. 부서 테이블에서 부서명이 2글자 또는 3글자인 행을 조회
+SELECT 
+DEPARTMENT_NAME AS "부서명"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_NAME LIKE '__' OR DEPARTMENT_NAME LIKE '___';
+-- 10. 부서ID가 50,60,70이 아닌 행을 조회
+SELECT 
+DEPARTMENT_ID AS "부서ID"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_ID NOT IN (50,60,70);
+
+-- 11. 부서ID가 3자리이면서 200보다 작은 행을 조회
+SELECT 
+DEPARTMENT_ID AS "부서ID"
+FROM DEPARTMENTS
+WHERE DEPARTMENT_ID LIKE '___' AND DEPARTMENT_ID < 200;
+
+
+-- 12. 부서ID가 30배수인 행을 조회
+
+SELECT 
+DEPARTMENT_ID AS "부서ID"
+FROM DEPARTMENTS
+WHERE MOD(DEPARTMENT_ID,30)=0;
+
+-- 13. 부서명에 공백 문자가 들어간 행을 조회
+SELECT
+DEPARTMENT_ID,
+DEPARTMENT_NAME AS "부서명",	
+MANAGER_ID,	
+LOCATION_ID
+FROM DEPARTMENTS 
+WHERE DEPARTMENT_NAME LIKE '% %';
+
+-- 14. 직원 테이블에서 FIRST_NAME과 LAST_NAME의 글자수가 각각 4개인 행을 조회
+SELECT
+FIRST_NAME,
+LAST_NAME
+FROM EMPLOYEES
+WHERE FIRST_NAME LIKE '____' AND LAST_NAME LIKE '____';
+
+
+-- 15. 전화번호의 뒤에서 4번째 숫자가 3인 행을 조회
+SELECT * FROM EMPLOYEES;
+
+SELECT
+PHONE_NUMBER AS "전화 번호"
+FROM EMPLOYEES
+WHERE  PHONE_NUMBER LIKE '%3___';
+
+
+-- 16. 모든 JOB_ID를 하나씩만 조회
+
+SELECT DISTINCT 
+job_id
+FROM EMPLOYEES;
+
+
+-- 17. 연봉이(SAL*12) 120000을 넘는 모든 행을 조회
+SELECT
+SALARY * 12 AS "연봉"
+FROM EMPLOYEES
+WHERE SALARY > 12000;
+
+-- 18. 직원ID, 직원명, 총 연수익(SAL*12 + (SAL*12)*COMMISION_PCT)
+SELECT
+EMPLOYEE_ID AS "직원ID",
+FIRST_NAME ||'_'|| LAST_NAME AS "직원명",
+SALARY*12 + (SALARY * 12) AS "총 연수익"
+FROM EMPLOYEES;
+
+SELECT * FROM EMPLOYEES; 
+
+
+-- 19. 관리자가 없는 직원들을 조회
+
+SELECT 
+FIRST_NAME ||'_'|| LAST_NAME AS "직원"
+FROM EMPLOYEES
+WHERE MANAGER_ID IS NOT NULL;
+
+
+-- 20. 직원ID, 직원명 풀네임(FIRST_NAME||LAST_NAME), 
+		-- 이메일,전화 번호를 조회, 부서ID에 대해 오름차순 정렬한 후에 
+		-- 관리자ID로 내리차순으로 정렬 
+                                                                                                                                                                                                                                                                       
+SELECT
+EMPLOYEE_ID AS "직원ID",
+FIRST_NAME ||'_'|| LAST_NAME AS "직원명 풀네임",
+EMAIL AS "이메일",
+PHONE_NUMBER AS "전화번호"
+FROM EMPLOYEES
+ORDER BY DEPARTMENT_ID ASC, MANAGER_ID DESC;
+
+SELECT * FROM EMPLOYEES; 
+
+
+
+
+
+
+
+
+
+
+
+
+

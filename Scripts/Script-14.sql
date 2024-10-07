@@ -1,0 +1,78 @@
+
+SELECT * FROM DEPARTMENTS;
+SELECT * FROM EMPLOYEES;
+
+-- 1. DEPARTMENTS 테이블의 정체행의 데이터를 커서를 사용해서 출력해보시오
+DECLARE
+CURSOR CUR_DEPT IS
+	SELECT *
+	FROM DEPARTMENTS;
+BEGIN
+FOR ROW_DEPT IN CUR_DEPT LOOP
+DBMS_OUTPUT.PUT_LINE(
+'부서ID : '|| ROW_DEPT.DEPARTMENT_ID
+|| ' 부서이름 : '|| ROW_DEPT.DEPARTMENT_NAME||
+' 관리자ID : '||ROW_DEPT.MANAGER_ID||
+' 위치ID : '||ROW_DEPT.LOCATION_ID
+);
+END LOOP;
+END;
+
+-- 2. 10번 부서에 근무하는 직원들의 직원아이디, 직원풀네임 조회할 수 있는 VW_EMP20이라는 뷰를 생성해 보세요.
+CREATE OR REPLACE VIEW VW_EMP20
+AS
+SELECT EMPLOYEE_ID EMPID,FIRST_NAME||'_'||LAST_NAME FULLNAME
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 10;
+
+-- 3. VW_EMP20뷰의 직원아이디, 직원풀네임을 커서를 사용해서 출력해 보세요.
+DECLARE
+CURSOR CUR_VE IS
+	SELECT *
+	FROM VW_EMP20;
+BEGIN
+FOR ROW_VE IN CUR_VE LOOP
+DBMS_OUTPUT.PUT_LINE(
+'직원ID : '|| ROW_VE.EMPID
+|| ' 전체이름 : '|| ROW_VE.FULLNAME);
+END LOOP;
+END;
+
+-- 4. 30, 40, 50번 부서에 근무하는 직원들의 부서아이디, 부서명, 직원아이디, 직원풀네임을 조회할 수 있는
+--     VW_EMP345라는 뷰를 생성해 보세요.
+CREATE OR REPLACE VIEW VW_EMP345
+AS
+SELECT  
+D.DEPARTMENT_ID AS "DEID",
+D.DEPARTMENT_NAME AS "DENAME",
+E.EMPLOYEE_ID AS "EMPID",
+E.FIRST_NAME||'_'||E.LAST_NAME AS "FULLNAME"
+FROM EMPLOYEES E,DEPARTMENTS D
+WHERE 
+E.DEPARTMENT_ID = D.DEPARTMENT_ID
+AND E.DEPARTMENT_ID = ANY(30,40,50);
+
+
+-- 5. VW_EMP345뷰에서 30번 부서의 직원들의 직원아이디, 직원풀네임을 커서를 사용해서 출력해 보세요.
+
+DECLARE
+CURSOR CUR_VE IS
+	SELECT *
+	FROM VW_EMP345
+	WHERE DEID = 30;
+BEGIN
+DBMS_OUTPUT.PUT_LINE('--------------------------------');
+FOR ROW_VE IN CUR_VE LOOP
+DBMS_OUTPUT.PUT_LINE(
+'직원ID : '|| ROW_VE.EMPID
+|| ' 전체이름 : '|| ROW_VE.FULLNAME);
+END LOOP;
+END;
+
+-- 6. 연관배열에 모든 직원정보의 직원아이디, 직원풀네임을 레코드타입으로 저장하여 커서를 사용해서 출력해 보세요.
+
+
+
+
+
+-- 7. 연관배열에 부서번호가 50이하인 부서정보를 레코드타입으로 저장하여 커서를 사용해서 출력해 보세요.

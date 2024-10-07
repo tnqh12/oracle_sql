@@ -1,0 +1,30 @@
+--Subquery 2
+
+-- 17. 부서별로 최저 급여를 받는 직원들의 직원 아이디, 풀네임, 급여를 조회
+SELECT
+D.DEPARTMENT_NAME AS "부서명",
+E.EMPLOYEE_ID AS "직원ID",
+E.FIRST_NAME|| '_' ||E.LAST_NAME AS "풀네임",
+E.SALARY AS "급여 "
+FROM EMPLOYEES E ,  DEPARTMENTS D
+WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		AND E.SALARY IN (SELECT MIN(E.SALARY)
+                                   FROM   DEPARTMENTS D, EMPLOYEES E
+                                   WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID
+                                   GROUP BY D.DEPARTMENT_NAME) ;
+
+SELECT * FROM EMPLOYEES;
+
+-- 18. 부서별 급여 평균이 위에서 3번째인 부서에 근무하는 직원들의 직원 아이디, 풀네임, 급여를 조회
+SELECT  
+D.DEPARTMENT_NAME AS "부서명",
+E.EMPLOYEE_ID  AS "직원ID",
+E.FIRST_NAME || '_' || E.LAST_NAME AS "풀네임",
+E.SALARY  AS "급여"
+FROM EMPLOYEES E, DEPARTMENTS D
+WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		AND E.SALARY = ANY(SELECT AVG(E.SALARY)FROM EMPLOYEES E, DEPARTMENTS D
+							WHERE E.DEPARTMENT_ID = D.DEPARTMENT_ID 
+							GROUP BY D.DEPARTMENT_NAME); 
+		
+
